@@ -9,23 +9,23 @@ public class PlayerMovement : MonoBehaviour
 
 	public bool canMove = true;
 
-	public float walkSpeed = 12;
+	public float walkSpeed = 12f;
 	public float speedUpDuration = 0.1f;
-	public float airSpeed = 8;
+	public float airSpeed = 8f;
 	public float jumpHeight = 3.5f;
-	public float jumpSpeed = 6;
+	public float jumpSpeed = 5f;
 	public float jumpTime = 1f;
-	public float characterMass = 1;
+	public float characterMass = 1f;
 
 	private float targetHorizontalSpeed;
 	private float horizontalSpeed;
 	private float smoothDampVelX;
 	private float velocityX;
 	public float velocityY;
-	private float jumpTimestamp;
+	public float jumpTimestamp;
 
-	private bool canJump = false;
-	private bool jumping = false;
+	public bool canJump = false;
+	public bool jumping = false;
 	public bool grounded;
 
 	private Vector3 currentScale;
@@ -61,12 +61,8 @@ public class PlayerMovement : MonoBehaviour
 				{
 					grounded = true;
 					canJump = true;
-					
-					if ((rigidbody.velocity.y <= 0)&&(jumping))
-					{
-						jumping = false;
-						jumpTimestamp = 0;
-					}
+					jumping = false;
+					jumpTimestamp = 0;
 				}
 			}
 		}
@@ -76,6 +72,7 @@ public class PlayerMovement : MonoBehaviour
 	{
 		targetHorizontalSpeed = 0;
 		currentScale = transform.localScale;
+
 
 /*/////////////////////////////////////////////////////////////////////////////////////
 ///			HORIZONTAL MOVEMENT SECTION												///
@@ -108,6 +105,7 @@ public class PlayerMovement : MonoBehaviour
 			velocityX = horizontalSpeed * airSpeed;
 		}
 
+
 		/*/////////////////////////////////////////////////////////////////////////////////////
 		///			VERTICAL/JUMPING SECTION												///
 		/////////////////////////////////////////////////////////////////////////////////////*/
@@ -118,33 +116,41 @@ public class PlayerMovement : MonoBehaviour
 			if ((canJump)&&(jumpTimestamp < jumpTime))
 			{
 				jumping = true;
+				jumpTimestamp += Time.fixedDeltaTime; 
 
-				velocityY = ((jumpHeight * jumpTime) / (jumpSpeed));
+				//This formula uses the gravity scale and height to calculate how fast the object needs to per second to reach the designated height
+				velocityY = Mathf.Sqrt(2 * (9.8f / characterMass) * jumpHeight);
+
+				//velocityY = velocityY / (velocityY * jumpTime);
+			}
+			else
+			{
+				canJump = false;
 			}
 		}
 		else if ((inputScript.jumpInputUp)&&(jumping))
 		{
 			canJump = false;
+			jumping = false;
+
+			if (jumpTimestamp < jumpTime)
+			{
+				velocityY = -velocityY;
+			}
 		}
+
 
 		/*/////////////////////////////////////////////////////////////////////////////////////
 		///			GRAVITY SECTION												///
 		/////////////////////////////////////////////////////////////////////////////////////*/
 		if ((grounded)&&(!jumping))
 		{
-			velocityY = -1;
-		}
-		else if (jumping)
-		{
-			jumpTimestamp += Time.fixedDeltaTime; 
-		}
-		else
-		{
-			velocityY = Mathf.Clamp(velocityY, -9.8f, 9.8f);
+			velocityY = 0;
 		}
 
-		velocityY += Time.fixedDeltaTime * (-9.8f * characterMass);
+		velocityY += (-9.8f) * Time.fixedDeltaTime;
 
+		velocityY = Mathf.Clamp(velocityY, -9.8f * characterMass, 1000);
 
 
 		/*/////////////////////////////////////////////////////////////////////////////////////
@@ -163,6 +169,7 @@ public class PlayerMovement : MonoBehaviour
 				transform.localScale = newScale;
 			}
 		}
+
 
 		/*/////////////////////////////////////////////////////////////////////////////////////
 		///			FINAL MOVEMENT SECTION												///
