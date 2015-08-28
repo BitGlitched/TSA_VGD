@@ -15,13 +15,14 @@ public class PlayerMovement : MonoBehaviour
 	public float jumpHeight = 3.5f;
 	public float jumpSpeed = 6;
 	public float jumpTime = 1f;
+	public float characterMass = 1;
 
 	private float targetHorizontalSpeed;
 	private float horizontalSpeed;
 	private float smoothDampVelX;
-	public float velocityX;
+	private float velocityX;
 	public float velocityY;
-	public float jumpTimestamp;
+	private float jumpTimestamp;
 
 	private bool canJump = false;
 	private bool jumping = false;
@@ -117,15 +118,34 @@ public class PlayerMovement : MonoBehaviour
 			if ((canJump)&&(jumpTimestamp < jumpTime))
 			{
 				jumping = true;
-				jumpTimestamp += Time.fixedDeltaTime;
 
-				velocityY = jumpSpeed / (jumpHeight * jumpTime);
-				}
+				velocityY = ((jumpHeight * jumpTime) / (jumpSpeed));
+			}
 		}
 		else if ((inputScript.jumpInputUp)&&(jumping))
 		{
 			canJump = false;
 		}
+
+		/*/////////////////////////////////////////////////////////////////////////////////////
+		///			GRAVITY SECTION												///
+		/////////////////////////////////////////////////////////////////////////////////////*/
+		if ((grounded)&&(!jumping))
+		{
+			velocityY = -1;
+		}
+		else if (jumping)
+		{
+			jumpTimestamp += Time.fixedDeltaTime; 
+		}
+		else
+		{
+			velocityY = Mathf.Clamp(velocityY, -9.8f, 9.8f);
+		}
+
+		velocityY += Time.fixedDeltaTime * (-9.8f * characterMass);
+
+
 
 		/*/////////////////////////////////////////////////////////////////////////////////////
 		///			SPRITE FLIPPING SECTION													///
