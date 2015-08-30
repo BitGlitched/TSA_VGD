@@ -11,11 +11,7 @@ public class InputScript : MonoBehaviour
 	public KeyCode upInput = KeyCode.W;
 	public KeyCode downInput = KeyCode.S;
 	public KeyCode jumpInput = KeyCode.Space;
-	public KeyCode dashInput = KeyCode.LeftShift;
-	public KeyCode rollInput = KeyCode.LeftControl;
-	public KeyCode fireInput = KeyCode.Mouse0;
-	public KeyCode secondaryFireInput = KeyCode.Mouse1;
-	public KeyCode reloadInput = KeyCode.R;
+	public KeyCode slideInput = KeyCode.LeftShift;
 
 	public float leftJoystickX;
 	public float leftJoystickY;
@@ -27,27 +23,18 @@ public class InputScript : MonoBehaviour
 	public bool upInputPressed;
 	public bool downInputPressed;
 	public bool jumpInputPressed;
-	public bool fireInputPressed;
-	public bool secondaryFireInputPressed;
-	public bool reloadInputPressed;
 
 	public bool leftInputDown;
 	public bool rightInputDown;
 	public bool upInputDown;
 	public bool downInputDown;
 	public bool jumpInputDown;
-	public bool fireInputDown;
-	public bool secondaryFireInputDown;
-	public bool reloadInputDown;
 
 	public bool leftInputUp;
 	public bool rightInputUp;
 	public bool upInputUp;
 	public bool downInputUp;
 	public bool jumpInputUp;
-	public bool fireInputUp;
-	public bool secondaryFireInputUp;
-	public bool reloadInputUp;
 
 	// Update is called once per frame
 	void Update ()
@@ -57,25 +44,16 @@ public class InputScript : MonoBehaviour
 		upInputPressed = false;
 		downInputPressed = false;
 		jumpInputPressed = false;
-		fireInputPressed = false;
-		secondaryFireInputPressed = false;
-		reloadInputPressed = false;
 		leftInputDown = false;
 		rightInputDown = false;
 		upInputDown = false;
 		downInputDown = false;
 		jumpInputDown = false;
-		fireInputDown = false;
-		secondaryFireInputDown = false;
-		reloadInputDown = false;
 		leftInputUp = false;
 		rightInputUp = false;
 		upInputUp = false;
 		downInputUp = false;
 		jumpInputUp = false;
-		fireInputUp = false;
-		secondaryFireInputUp = false;
-		reloadInputUp = false;
 
 		if (getInput)
 		{
@@ -147,48 +125,6 @@ public class InputScript : MonoBehaviour
 			else if (Input.GetKeyUp(jumpInput))
 			{
 				jumpInputUp = true;
-			}
-
-			//Fire input section
-			if (Input.GetKey(fireInput))
-			{
-				fireInputPressed = true;
-			}
-			if (Input.GetKeyDown(fireInput))
-			{
-				fireInputDown = true;
-			}
-			else if (Input.GetKeyUp(fireInput))
-			{
-				fireInputUp = true;
-			}
-
-			//Secondary Fire input section
-			if (Input.GetKey(secondaryFireInput))
-			{
-				secondaryFireInputPressed = true;
-			}
-			if (Input.GetKeyDown(secondaryFireInput))
-			{
-				secondaryFireInputDown = true;
-			}
-			else if (Input.GetKeyUp(secondaryFireInput))
-			{
-				secondaryFireInputUp = true;
-			}
-
-			//Reload Input section
-			if (Input.GetKey(reloadInput))
-			{
-				reloadInputPressed = true;
-			}
-			if (Input.GetKeyDown(reloadInput))
-			{
-				reloadInputDown = true;
-			}
-			else if (Input.GetKeyUp(reloadInput))
-			{
-				reloadInputUp = true;
 			}
 
 			//Controller input section
