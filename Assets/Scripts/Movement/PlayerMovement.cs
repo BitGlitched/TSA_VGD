@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
 
 	public float walkSpeed = 12f;
 	public float speedUpDuration = 0.1f;
+	public bool  airControl = false;
 	public float airSpeed = 8f;
 	public float jumpHeight = 3.5f;
 	public float jumpSpeed = 5f;
@@ -20,18 +21,17 @@ public class PlayerMovement : MonoBehaviour
 	private float targetHorizontalSpeed;
 	private float horizontalSpeed;
 	private float smoothDampVelX;
-	private float velocityX;
+	public float velocityX;
 	public float velocityY;
-	public float jumpTimestamp;
+	private float jumpTimestamp;
 
-	public bool canJump = false;
-	public bool jumping = false;
-	public bool grounded;
+	private bool canJump = false;
+	private bool jumping = false;
+	private bool grounded = false;
 
 	private Vector3 currentScale;
 
 	private InputScript inputScript;
-
 	private Rigidbody2D rigidbody;
 	private Collider2D collider;
 
@@ -41,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
 		rigidbody = transform.GetComponent<Rigidbody2D>();
 		collider = transform.GetComponent<Collider2D>();
 	}
-	
+
 	// Update is called once per frame
 	void Update ()
 	{
@@ -54,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
 			float yOffset = (collider.bounds.size.y - collider.offset.y) * 0.5f;
 			Vector2 castVector = new Vector2 (transform.position.x, transform.position.y - yOffset);
 			Collider2D[] colliders = Physics2D.OverlapCircleAll(castVector, castRadius, groundLayer);
-			
+
 			for (int count = 0; count < colliders.Length; count++)
 			{
 				if (colliders[count].gameObject != gameObject)
@@ -79,20 +79,23 @@ public class PlayerMovement : MonoBehaviour
 /////////////////////////////////////////////////////////////////////////////////////*/
 
 		//Regular movement intention section
-		if (inputScript.rightInputPressed)
+		if ((airControl)||(grounded))
 		{
-			targetHorizontalSpeed++;
-		}
-		
-		if (inputScript.leftInputPressed)
-		{
-			targetHorizontalSpeed--;
-		}
+			if (inputScript.rightInputPressed)
+			{
+				targetHorizontalSpeed++;
+			}
 
-		//Smoothing of horizontal speed
-		if (horizontalSpeed != targetHorizontalSpeed)
-		{
-			horizontalSpeed = Mathf.SmoothDamp(horizontalSpeed, targetHorizontalSpeed, ref smoothDampVelX, speedUpDuration);
+			if (inputScript.leftInputPressed)
+			{
+				targetHorizontalSpeed--;
+			}
+
+			//Smoothing of horizontal speed
+			if (horizontalSpeed != targetHorizontalSpeed)
+			{
+				horizontalSpeed = Mathf.SmoothDamp(horizontalSpeed, targetHorizontalSpeed, ref smoothDampVelX, speedUpDuration);
+			}
 		}
 
 		//Actual movement instructions
@@ -111,32 +114,17 @@ public class PlayerMovement : MonoBehaviour
 		/////////////////////////////////////////////////////////////////////////////////////*/
 
 		//Jumping section
-		if (inputScript.jumpInputPressed)
+		if ((inputScript.jumpInputPressed)&&(canJump)&&(jumpTimestamp < jumpTime))
 		{
-			if ((canJump)&&(jumpTimestamp < jumpTime))
-			{
-				jumping = true;
-				jumpTimestamp += Time.fixedDeltaTime; 
+			jumping = true;
+			jumpTimestamp += Time.fixedDeltaTime;
 
-				//This formula uses the gravity scale and height to calculate how fast the object needs to per second to reach the designated height
-				velocityY = Mathf.Sqrt(2 * (9.8f / characterMass) * jumpHeight);
-
-				//velocityY = velocityY / (velocityY * jumpTime);
-			}
-			else
-			{
-				canJump = false;
-			}
+			velocityY = jumpHeight / jumpTime;
 		}
-		else if ((inputScript.jumpInputUp)&&(jumping))
+		else if ((inputScript.jumpInputUp)||((jumpTimestamp > jumpTime)&&(jumping)))
 		{
 			canJump = false;
 			jumping = false;
-
-			if (jumpTimestamp < jumpTime)
-			{
-				velocityY = -velocityY;
-			}
 		}
 
 
@@ -148,7 +136,7 @@ public class PlayerMovement : MonoBehaviour
 			velocityY = 0;
 		}
 
-		velocityY += (-9.8f) * Time.fixedDeltaTime;
+		velocityY += (-9.8f * characterMass) * Time.fixedDeltaTime;
 
 		velocityY = Mathf.Clamp(velocityY, -9.8f * characterMass, 1000);
 
@@ -177,6 +165,6 @@ public class PlayerMovement : MonoBehaviour
 
 		Vector2 currentPosition = new Vector2 (transform.position.x, transform.position.y);
 		Vector2 newPosition = new Vector2 (velocityX, velocityY);
-		rigidbody.MovePosition (currentPosition + newPosition * Time.fixedDeltaTime) ;
+		rigidbody.MovePosition (currentPosition + newPosition * Time.fixedDeltaTime);
 	}
 }
