@@ -27,19 +27,21 @@ public class PlayerMovement : MonoBehaviour
 
 	private bool canJump = false;
 	private bool jumping = false;
-	private bool grounded = false;
+	public bool grounded = false;
 
 	private Vector3 currentScale;
 
 	private InputScript inputScript;
 	private Rigidbody2D rigidbody;
-	private Collider2D collider;
+	private BoxCollider2D topCollider;
+	private CircleCollider2D bottomCollider;
 
 	void Awake()
 	{
 		inputScript = transform.GetComponent<InputScript>();
 		rigidbody = transform.GetComponent<Rigidbody2D>();
-		collider = transform.GetComponent<Collider2D>();
+		topCollider = transform.GetComponent<BoxCollider2D>();
+		bottomCollider = transform.GetComponent<CircleCollider2D>();
 	}
 
 	// Update is called once per frame
@@ -48,10 +50,10 @@ public class PlayerMovement : MonoBehaviour
 		//Ground check section, comes first for frame by frame perect accuracy
 		grounded = false;
 
-		if (collider.IsTouchingLayers(groundLayer))
+		if (bottomCollider.IsTouchingLayers(groundLayer))
 		{
-			float castRadius = collider.bounds.extents.x;
-			float yOffset = (collider.bounds.size.y - collider.offset.y) * 0.5f;
+			float castRadius = bottomCollider.bounds.extents.x;
+			float yOffset = (bottomCollider.bounds.size.y - bottomCollider.offset.y) * 0.5f;
 			Vector2 castVector = new Vector2 (transform.position.x, transform.position.y - yOffset);
 			Collider2D[] colliders = Physics2D.OverlapCircleAll(castVector, castRadius, groundLayer);
 
@@ -65,6 +67,12 @@ public class PlayerMovement : MonoBehaviour
 					jumpTimestamp = 0;
 				}
 			}
+		}
+		else if ((topCollider.IsTouchingLayers(groundLayer))&&(jumping))
+		{
+			canJump = false;
+			jumping = false;
+			velocityY = 0;
 		}
 	}
 
@@ -121,7 +129,8 @@ public class PlayerMovement : MonoBehaviour
 
 			velocityY = jumpHeight / jumpTime;
 		}
-		else if ((inputScript.jumpInputUp)||((jumpTimestamp > jumpTime)&&(jumping)))
+
+		if ((inputScript.jumpInputUp)||((jumpTimestamp > jumpTime)&&(jumping)))
 		{
 			canJump = false;
 			jumping = false;
