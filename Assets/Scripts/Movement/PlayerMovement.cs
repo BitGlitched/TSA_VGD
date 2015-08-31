@@ -83,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
 				if (colliders[count].gameObject != gameObject)
 				{
 					canJump = false;
-					velocityY = -9.8f;
+					velocityY = 0;
 				}
 			}
 		}
@@ -100,23 +100,20 @@ public class PlayerMovement : MonoBehaviour
 /////////////////////////////////////////////////////////////////////////////////////*/
 
 		//Regular movement intention section
-		if (grounded)
+		if (inputScript.rightInputPressed)
 		{
-			if (inputScript.rightInputPressed)
-			{
-				targetHorizontalSpeed++;
-			}
+			targetHorizontalSpeed++;
+		}
 
-			if (inputScript.leftInputPressed)
-			{
-				targetHorizontalSpeed--;
-			}
+		if (inputScript.leftInputPressed)
+		{
+			targetHorizontalSpeed--;
+		}
 
-			//Smoothing of horizontal speed
-			if (horizontalSpeed != targetHorizontalSpeed)
-			{
-				horizontalSpeed = Mathf.SmoothDamp(horizontalSpeed, targetHorizontalSpeed, ref smoothDampVelX, smoothAmount);
-			}
+		//Smoothing of horizontal speed
+		if (horizontalSpeed != targetHorizontalSpeed)
+		{
+			horizontalSpeed = Mathf.SmoothDamp(horizontalSpeed, targetHorizontalSpeed, ref smoothDampVelX, smoothAmount);
 		}
 
 		//Actual movement instructions
