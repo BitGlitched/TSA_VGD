@@ -10,13 +10,11 @@ public class PlayerMovement : MonoBehaviour
 	public bool canMove = true;
 
 	public float walkSpeed = 12f;
-	public float speedUpDuration = 0.1f;
-	public bool  airControl = false;
-	public float airSpeed = 8f;
+	public float smoothAmount = 0.0f;
+	public float airSpeed = 10f;
 	public float jumpHeight = 3.5f;
-	public float jumpSpeed = 5f;
 	public float jumpTime = 1f;
-	public float characterMass = 1f;
+	public float characterMass = 4f;
 
 	private float targetHorizontalSpeed;
 	private float horizontalSpeed;
@@ -24,9 +22,10 @@ public class PlayerMovement : MonoBehaviour
 	public float velocityX;
 	public float velocityY;
 	private float jumpTimestamp;
+	private float jumpCooldownTimestamp;
 
-	private bool canJump = false;
-	private bool jumping = false;
+	public bool canJump = true;
+	public bool jumping = false;
 	public bool grounded = false;
 
 	private Vector3 currentScale;
@@ -47,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		//Ground check section, comes first for frame by frame perect accuracy
+		//Ground check section, comes first for frame by frame accuracy
 		grounded = false;
 
 		if (bottomCollider.IsTouchingLayers(groundLayer))
@@ -62,17 +61,31 @@ public class PlayerMovement : MonoBehaviour
 				if (colliders[count].gameObject != gameObject)
 				{
 					grounded = true;
-					canJump = true;
 					jumping = false;
 					jumpTimestamp = 0;
+					jumpCooldownTimestamp = 0;
 				}
 			}
 		}
 		else if ((topCollider.IsTouchingLayers(groundLayer))&&(jumping))
 		{
-			canJump = false;
-			jumping = false;
-			velocityY = 0;
+			print ("Yes!");
+
+			float castRadius = topCollider.bounds.extents.x;
+			float yOffset = (topCollider.bounds.size.y + topCollider.offset.y) * 0.5f;
+			Vector2 castVector = new Vector2 (transform.position.x, transform.position.y + yOffset);
+			Collider2D[] colliders = Physics2D.OverlapCircleAll(castVector, castRadius, groundLayer);
+
+			Debug.DrawRay(castVector, Vector3.up);
+			
+			for (int count = 0; count < colliders.Length; count++)
+			{
+				if (colliders[count].gameObject != gameObject)
+				{
+					canJump = false;
+					velocityY = -9.8f;
+				}
+			}
 		}
 	}
 
@@ -87,7 +100,7 @@ public class PlayerMovement : MonoBehaviour
 /////////////////////////////////////////////////////////////////////////////////////*/
 
 		//Regular movement intention section
-		if ((airControl)||(grounded))
+		if (grounded)
 		{
 			if (inputScript.rightInputPressed)
 			{
@@ -102,7 +115,7 @@ public class PlayerMovement : MonoBehaviour
 			//Smoothing of horizontal speed
 			if (horizontalSpeed != targetHorizontalSpeed)
 			{
-				horizontalSpeed = Mathf.SmoothDamp(horizontalSpeed, targetHorizontalSpeed, ref smoothDampVelX, speedUpDuration);
+				horizontalSpeed = Mathf.SmoothDamp(horizontalSpeed, targetHorizontalSpeed, ref smoothDampVelX, smoothAmount);
 			}
 		}
 
@@ -129,11 +142,19 @@ public class PlayerMovement : MonoBehaviour
 
 			velocityY = jumpHeight / jumpTime;
 		}
-
-		if ((inputScript.jumpInputUp)||((jumpTimestamp > jumpTime)&&(jumping)))
+		else if ((inputScript.jumpInputUp)||((jumpTimestamp > jumpTime)&&(jumping)))
 		{
 			canJump = false;
-			jumping = false;
+		}
+
+		if ((!inputScript.jumpInputPressed)&&(grounded))
+		{
+			canJump = true;
+		}
+		
+		if ((inputScript.jumpInputUp)&&(jumping))
+		{
+			canJump = false;
 		}
 
 

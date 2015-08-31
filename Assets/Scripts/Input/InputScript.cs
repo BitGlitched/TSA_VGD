@@ -13,11 +13,6 @@ public class InputScript : MonoBehaviour
 	public KeyCode jumpInput = KeyCode.Space;
 	public KeyCode slideInput = KeyCode.LeftShift;
 
-	public float leftJoystickX;
-	public float leftJoystickY;
-	public float rightJoystickX;
-	public float rightJoystickY;
-
 	public bool leftInputPressed;
 	public bool rightInputPressed;
 	public bool upInputPressed;
@@ -125,26 +120,6 @@ public class InputScript : MonoBehaviour
 			else if (Input.GetKeyUp(jumpInput))
 			{
 				jumpInputUp = true;
-			}
-
-			//Controller input section
-			if (getControllerInput)
-			{
-				leftJoystickX = Input.GetAxis("Horizontal");
-				leftJoystickY = Input.GetAxis("Vertical");
-
-				if (Input.GetButton("Jump"))
-				{
-					jumpInputPressed = true;
-				}
-				if (Input.GetButtonDown("Jump"))
-				{
-					jumpInputDown = true;
-				}
-				if (Input.GetButtonUp("Jump"))
-				{
-					jumpInputUp = true;
-				}
 			}
 		}
 	}
