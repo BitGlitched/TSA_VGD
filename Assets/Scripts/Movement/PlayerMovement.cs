@@ -19,8 +19,8 @@ public class PlayerMovement : MonoBehaviour
 	private float targetHorizontalSpeed;
 	private float horizontalSpeed;
 	private float smoothDampVelX;
-	public float velocityX;
-	public float velocityY;
+	private float velocityX;
+	private float velocityY;
 	private float jumpTimestamp;
 	private float jumpCooldownTimestamp;
 
@@ -87,6 +87,17 @@ public class PlayerMovement : MonoBehaviour
 				}
 			}
 		}
+
+		//Moved here to get input more accurately
+		if ((!inputScript.jumpInputPressed)&&(grounded))
+		{
+			canJump = true;
+		}
+		
+		if ((inputScript.jumpInputUp)&&(jumping))
+		{
+			canJump = false;
+		}
 	}
 
 	void FixedUpdate()
@@ -137,21 +148,12 @@ public class PlayerMovement : MonoBehaviour
 			jumping = true;
 			jumpTimestamp += Time.fixedDeltaTime;
 
-			velocityY = jumpHeight / jumpTime;
+			velocityY = (jumpHeight) / (jumpTime);
 		}
 		else if ((inputScript.jumpInputUp)||((jumpTimestamp > jumpTime)&&(jumping)))
 		{
 			canJump = false;
-		}
 
-		if ((!inputScript.jumpInputPressed)&&(grounded))
-		{
-			canJump = true;
-		}
-		
-		if ((inputScript.jumpInputUp)&&(jumping))
-		{
-			canJump = false;
 		}
 
 
@@ -165,7 +167,7 @@ public class PlayerMovement : MonoBehaviour
 
 		velocityY += (-9.8f * characterMass) * Time.fixedDeltaTime;
 
-		velocityY = Mathf.Clamp(velocityY, -9.8f * characterMass, 1000);
+		//velocityY = Mathf.Clamp(velocityY, -9.8f * characterMass, 1000);
 
 
 		/*/////////////////////////////////////////////////////////////////////////////////////
@@ -192,6 +194,6 @@ public class PlayerMovement : MonoBehaviour
 
 		Vector2 currentPosition = new Vector2 (transform.position.x, transform.position.y);
 		Vector2 newPosition = new Vector2 (velocityX, velocityY);
-		rigidbody.MovePosition (currentPosition + newPosition * Time.fixedDeltaTime);
+		rigidbody.MovePosition (currentPosition + (newPosition * Time.fixedDeltaTime));
 	}
 }
