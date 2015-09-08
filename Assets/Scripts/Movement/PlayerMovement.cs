@@ -9,24 +9,21 @@ public class PlayerMovement : MonoBehaviour
 	public LayerMask playerLayer;
 
 	public bool canControl = true;
+	public bool wallJumpAssist = false;
 
 	public float walkSpeed = 12f;
-	public float smoothAmount = 0.0f;
-	public float airSpeed = 10f;
-	public float jumpHeight = 3.5f;
-	public float jumpTime = 1f;
+	public float airSpeed = 11f;
+	public float jumpHeight = 5f;
+	public float jumpTime = 0.35f;
 	public float characterMass = 4f;
-	public float wallJumpForce = 20;
+	public float wallJumpForce = 11f;
 	public float wallJumpWallOffset = 0.1f;
 
-	private float targetHorizontalSpeed;
 	private float horizontalSpeed;
-	private float smoothDampVelX;
-	public float velocityX;
-	public float velocityY;
+	private float velocityX;
+	private float velocityY;
 	private float jumpTimestamp;
 	private float externalForceX;
-	private float externalVelX;
 
 	public bool canJump = false;
 	public bool jumping = false;
@@ -61,7 +58,11 @@ public class PlayerMovement : MonoBehaviour
 			canJump = false;
 		}
 
-		if ((groundCheck.grounded == false)&&(inputScript.jumpInputDown))
+		if ((wallJumpAssist)&&(groundCheck.grounded == false)&&(inputScript.jumpInputPressed))
+		{
+			WallJump();
+		}
+		else if ((groundCheck.grounded == false)&&(inputScript.jumpInputDown))
 		{
 			WallJump();
 		}
