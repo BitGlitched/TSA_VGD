@@ -22,14 +22,15 @@ public class PlayerMovement : MonoBehaviour
 	private float targetHorizontalSpeed;
 	private float horizontalSpeed;
 	private float smoothDampVelX;
-	private float velocityX;
-	private float velocityY;
+	public float velocityX;
+	public float velocityY;
 	private float jumpTimestamp;
 	private float externalForceX;
 	private float externalVelX;
 
 	public bool canJump = false;
 	public bool jumping = false;
+	public bool wallJumping = false;
 	
 	private Vector3 currentScale;
 
@@ -37,7 +38,6 @@ public class PlayerMovement : MonoBehaviour
 	private PlayerGroundCheck groundCheck;
 	private Rigidbody2D rigidbody;
 	private BoxCollider2D topCollider;
-	private CircleCollider2D bottomCollider;
 
 	void Awake()
 	{
@@ -45,7 +45,6 @@ public class PlayerMovement : MonoBehaviour
 		inputScript = transform.GetComponent<InputScript>();
 		rigidbody = transform.GetComponent<Rigidbody2D>();
 		topCollider = transform.GetComponent<BoxCollider2D>();
-		bottomCollider = transform.GetComponent<CircleCollider2D>();
 	}
 
 	// Update is called once per frame
@@ -75,9 +74,9 @@ public class PlayerMovement : MonoBehaviour
 
 	void FixedUpdate()
 	{
-		currentScale = transform.localScale;
 		horizontalSpeed = 0;
-
+		currentScale = transform.localScale;
+		Vector2 currentPosition = new Vector2 (transform.position.x, transform.position.y);
 
 /*/////////////////////////////////////////////////////////////////////////////////////
 ///			HORIZONTAL MOVEMENT SECTION												///
@@ -100,9 +99,14 @@ public class PlayerMovement : MonoBehaviour
 			{
 				velocityX = horizontalSpeed * walkSpeed;
 			}
-			else
+			else if (!wallJumping)
 			{
 				velocityX = horizontalSpeed * airSpeed;
+			}
+			else
+			{
+				velocityX += horizontalSpeed * airSpeed * Time.fixedDeltaTime;
+				velocityX = Mathf.Clamp(velocityX, -airSpeed, airSpeed);
 			}
 
 
@@ -116,12 +120,11 @@ public class PlayerMovement : MonoBehaviour
 				jumping = true;
 				jumpTimestamp += Time.fixedDeltaTime;
 
-				velocityY = (jumpHeight) / (jumpTime);
+				velocityY = jumpHeight * jumpTime / (jumpTime * jumpTime);
 			}
 			else if ((jumpTimestamp > jumpTime)&&(jumping))
 			{
 				canJump = false;
-
 			}
 		}
 
@@ -135,6 +138,7 @@ public class PlayerMovement : MonoBehaviour
 		}
 
 		velocityY += (-9.8f * characterMass) * Time.fixedDeltaTime;
+
 
 		/*/////////////////////////////////////////////////////////////////////////////////////
 		///			SPRITE FLIPPING SECTION													///
@@ -157,14 +161,8 @@ public class PlayerMovement : MonoBehaviour
 		/*/////////////////////////////////////////////////////////////////////////////////////
 		///			FINAL MOVEMENT SECTION													///
 		/////////////////////////////////////////////////////////////////////////////////////*/
-
-		if (externalForceX != 0)
-		{
-			externalForceX = Mathf.SmoothDamp(externalForceX, 0, ref externalVelX, 1);
-		}
-
-		Vector2 currentPosition = new Vector2 (transform.position.x, transform.position.y);
-		Vector2 newPosition = new Vector2 (velocityX + externalForceX, velocityY);
+		
+		Vector2 newPosition = new Vector2 (velocityX, velocityY);
 		rigidbody.velocity = newPosition;
 	}
 
@@ -179,20 +177,11 @@ public class PlayerMovement : MonoBehaviour
 			
 		if (Physics2D.Raycast(currentPosition2D, currentDir, rayLength, playerLayer))
 		{
-				print ("Walljumped!");
-				//externalForceX = -currentScale.x * airSpeed;
-				rigidbody.velocity = new Vector2(-currentScale.x * airSpeed, rigidbody.velocity.y);
-				velocityY = wallJumpForce;
+			print ("Walljumped!");
+			wallJumping = true;
+
+			velocityY = wallJumpForce;
+			velocityX = airSpeed * -currentScale.x;
 		}
-	}
-
-	void SetVelocityX(float velX)
-	{
-		velocityX = velX;
-	}
-
-	void SetVelocityY(float velY)
-	{
-		velocityY = velY;
 	}
 }

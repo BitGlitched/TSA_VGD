@@ -39,6 +39,7 @@ public class PlayerGroundCheck : MonoBehaviour
 				{
 					grounded = true;
 					playerMove.jumping = false;
+					playerMove.wallJumping = false;
 				}
 			}
 		}
