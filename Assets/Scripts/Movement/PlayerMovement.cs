@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
 
 	private float horizontalSpeed;
 	private float velocityX;
-	private float velocityY;
+	public float velocityY;
 	private float jumpTimestamp;
 	private float externalForceX;
 
@@ -51,6 +51,10 @@ public class PlayerMovement : MonoBehaviour
 		if ((!inputScript.jumpInputPressed)&&(groundCheck.grounded))
 		{
 			canJump = true;
+		}
+		else if ((groundCheck.grounded == false)&&(jumping == false))
+		{
+			canJump = false;
 		}
 		
 		if ((inputScript.jumpInputUp)&&(jumping))
@@ -176,7 +180,7 @@ public class PlayerMovement : MonoBehaviour
 
 		Debug.DrawRay(startVec2, Vector2.right * currentScale.x);
 			
-		if (Physics2D.Raycast(currentPosition2D, currentDir, rayLength, playerLayer))
+		if (Physics2D.Raycast(currentPosition2D, currentDir, rayLength, wallLayer))
 		{
 			print ("Walljumped!");
 			wallJumping = true;

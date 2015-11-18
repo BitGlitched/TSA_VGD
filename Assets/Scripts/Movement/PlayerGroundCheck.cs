@@ -32,6 +32,11 @@ public class PlayerGroundCheck : MonoBehaviour
 			float yOffset = (bottomCollider.bounds.size.y - bottomCollider.offset.y) * 0.5f;
 			Vector2 castVector = new Vector2 (transform.position.x, transform.position.y - yOffset);
 			Collider2D[] colliders = Physics2D.OverlapCircleAll(castVector, castRadius, groundLayer);
+
+			Debug.DrawRay(castVector, Vector3.up);
+			Debug.DrawRay(castVector, Vector3.down);
+			Debug.DrawRay(castVector, Vector3.left);
+			Debug.DrawRay(castVector, Vector3.right);
 			
 			for (int count = 0; count < colliders.Length; count++)
 			{
@@ -43,23 +48,11 @@ public class PlayerGroundCheck : MonoBehaviour
 				}
 			}
 		}
-		else if ((topCollider.IsTouchingLayers(groundLayer))&&(playerMove.jumping))
-		{			
-			float castRadius = topCollider.bounds.extents.x;
-			float yOffset = (topCollider.bounds.size.y + topCollider.offset.y) * 0.5f;
-			Vector2 castVector = new Vector2 (transform.position.x, transform.position.y + yOffset);
-			Collider2D[] colliders = Physics2D.OverlapCircleAll(castVector, castRadius, groundLayer);
-			
-			Debug.DrawRay(castVector, Vector3.up);
-			
-			for (int count = 0; count < colliders.Length; count++)
-			{
-				if (colliders[count].gameObject != gameObject)
-				{
-					playerMove.canJump = false;
-					playerMove.SendMessage("SetVelocityY", 0);
-				}
-			}
+
+		if ((topCollider.IsTouchingLayers(groundLayer)))
+		{
+			playerMove.canJump = false;
+			playerMove.velocityY = 0;
 		}
 	}
 }
