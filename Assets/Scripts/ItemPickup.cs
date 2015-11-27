@@ -1,15 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ItemPickup : MonoBehaviour {
+public class ItemPickup : MonoBehaviour
+{
+	public string itemName;
 
-	// Use this for initialization
-	void Start () {
-	
+	private Collider2D pickupCollider;
+
+	void Awake()
+	{
+		pickupCollider = this.gameObject.GetComponent<Collider2D>();
 	}
-	
+
 	// Update is called once per frame
-	void Update () {
-	
+	void Update ()
+	{
+
 	}
 }
