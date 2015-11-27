@@ -55,6 +55,11 @@ public class SpriteAnimator : MonoBehaviour
 			Debug.LogWarning ("Something was already animating the sprite! The component that tried to animate was: " + origin + "on the object" + origin.gameObject);
 		}
 	}
+
+	public void StopAnimation()
+	{
+		AnimationFinish();
+	}
 	
 	// Update is called once per frame
 	void FixedUpdate()

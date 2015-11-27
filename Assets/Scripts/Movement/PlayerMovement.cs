@@ -8,6 +8,8 @@ public class PlayerMovement : MonoBehaviour
 	public LayerMask wallLayer;
 	public LayerMask playerLayer;
 
+	public Sprite[] walkCycleFrames;
+
 	public bool canControl = true;
 	public bool wallJumpAssist = false;
 
@@ -28,6 +30,8 @@ public class PlayerMovement : MonoBehaviour
 	public bool canJump = false;
 	public bool jumping = false;
 	public bool wallJumping = false;
+
+	private bool animationPlaying;
 	
 	private Vector3 currentScale;
 
@@ -35,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
 	private PlayerGroundCheck groundCheck;
 	private Rigidbody2D rigidbody;
 	private BoxCollider2D topCollider;
+	private SpriteAnimator spriteAnimator;
 
 	void Awake()
 	{
@@ -42,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
 		inputScript = transform.GetComponent<InputScript>();
 		rigidbody = transform.GetComponent<Rigidbody2D>();
 		topCollider = transform.GetComponent<BoxCollider2D>();
+		spriteAnimator = transform.GetComponent<SpriteAnimator>();
 	}
 
 	// Update is called once per frame
@@ -169,6 +175,17 @@ public class PlayerMovement : MonoBehaviour
 		
 		Vector2 newPosition = new Vector2 (velocityX, velocityY);
 		rigidbody.velocity = newPosition;
+
+		if (horizontalSpeed != 0)
+		{
+			spriteAnimator.PlayAnimation(this, 1 / walkSpeed, true, walkCycleFrames, false);
+			animationPlaying = true;
+		}
+		else if (animationPlaying)
+		{
+			spriteAnimator.StopAnimation();
+			animationPlaying = false;
+		}
 	}
 
 	void WallJump()

@@ -1,0 +1,151 @@
+fileFormatVersion: 2
+guid: 0456b7b4a26c41a41b518938a2ead382
+timeCreated: 1448665273
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Sticky Run Sheet_00
+    21300002: Sticky Run Sheet_01
+    21300004: Sticky Run Sheet_02
+    21300006: Sticky Run Sheet_03
+    21300008: Sticky Run Sheet_04
+    21300010: Sticky Run Sheet_05
+    21300012: Sticky Run Sheet_06
+    21300014: Sticky Run Sheet_07
+    21300016: Sticky Run Sheet_0
+    21300018: Sticky Run Sheet_1
+    21300020: Sticky Run Sheet_2
+    21300022: Sticky Run Sheet_3
+    21300024: Sticky Run Sheet_4
+    21300026: Sticky Run Sheet_5
+    21300028: Sticky Run Sheet_6
+    21300030: Sticky Run Sheet_7
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -3
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: 0
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 64
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Sticky Run Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 14
+        width: 62
+        height: 81
+      alignment: 7
+      pivot: {x: .5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Sticky Run Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 12
+        width: 48
+        height: 80
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Sticky Run Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 121
+        y: 10
+        width: 69
+        height: 82
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Sticky Run Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 12
+        width: 68
+        height: 83
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Sticky Run Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 271
+        y: 9
+        width: 43
+        height: 87
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Sticky Run Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 322
+        y: 8
+        width: 67
+        height: 85
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Sticky Run Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 391
+        y: 10
+        width: 48
+        height: 80
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Sticky Run Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 444
+        y: 7
+        width: 67
+        height: 83
+      alignment: 7
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
