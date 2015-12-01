@@ -16,6 +16,7 @@ public class SpriteAnimator : MonoBehaviour
 	public float timestamp = 0;
 
 	public bool loopAnimation = false;
+	public bool hangAnimation = false;
 	public bool animating;
 
 	public int frame;
@@ -30,7 +31,7 @@ public class SpriteAnimator : MonoBehaviour
 		spriteRenderer = transform.GetComponent<SpriteRenderer>();
 	}
 
-	public void PlayAnimation(Component origin, float duration, bool loop, Sprite[] animationFrames, bool overideAnimation)
+	public void PlayAnimation(Component origin, float duration, bool loop, Sprite[] animationFrames, bool hang, bool overideAnimation)
 	{
 		if (animating == false)
 		{
@@ -39,6 +40,7 @@ public class SpriteAnimator : MonoBehaviour
 			animationMessageOrigin = origin.gameObject;
 			animationDuration = duration;
 			loopAnimation = loop;
+			hangAnimation = hang;
 			currentAnimationFrames = animationFrames;
 		}
 		else if (overideAnimation)
@@ -115,7 +117,7 @@ public class SpriteAnimator : MonoBehaviour
 			frame = 0;
 			spriteRenderer.sprite = currentAnimationFrames[frame];
 
-			if (loopAnimation == false)
+			if ((loopAnimation == false)&&(hangAnimation == false))
 			{
 				AnimationFinish();
 			}
@@ -133,6 +135,9 @@ public class SpriteAnimator : MonoBehaviour
 
 		animating = false;
 
-		animationMessageOrigin.SendMessage("AnimationFinished", SendMessageOptions.DontRequireReceiver);
+		if (animationMessageOrigin != null)
+		{
+			animationMessageOrigin.SendMessage("AnimationFinished", SendMessageOptions.DontRequireReceiver);
+		}
 	}
 }

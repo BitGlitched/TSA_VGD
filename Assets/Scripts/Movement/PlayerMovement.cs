@@ -8,8 +8,6 @@ public class PlayerMovement : MonoBehaviour
 	public LayerMask wallLayer;
 	public LayerMask playerLayer;
 
-	public Sprite[] walkCycleFrames;
-
 	public bool canControl = true;
 	public bool wallJumpAssist = false;
 
@@ -21,7 +19,7 @@ public class PlayerMovement : MonoBehaviour
 	public float wallJumpForce = 11f;
 	public float wallJumpWallOffset = 0.1f;
 
-	private float horizontalSpeed;
+	public float horizontalSpeed;
 	private float velocityX;
 	public float velocityY;
 	private float jumpTimestamp;
@@ -31,11 +29,10 @@ public class PlayerMovement : MonoBehaviour
 	public bool jumping = false;
 	public bool wallJumping = false;
 
-	private bool animationPlaying;
-	
 	private Vector3 currentScale;
 
 	private InputScript inputScript;
+	private ItemInventory inventory;
 	private PlayerGroundCheck groundCheck;
 	private Rigidbody2D rigidbody;
 	private BoxCollider2D topCollider;
@@ -44,6 +41,7 @@ public class PlayerMovement : MonoBehaviour
 	void Awake()
 	{
 		groundCheck = transform.GetComponent<PlayerGroundCheck>();
+		inventory = transform.GetComponent<ItemInventory>();
 		inputScript = transform.GetComponent<InputScript>();
 		rigidbody = transform.GetComponent<Rigidbody2D>();
 		topCollider = transform.GetComponent<BoxCollider2D>();
@@ -152,58 +150,69 @@ public class PlayerMovement : MonoBehaviour
 
 
 		/*/////////////////////////////////////////////////////////////////////////////////////
-		///			SPRITE FLIPPING SECTION													///
-		/////////////////////////////////////////////////////////////////////////////////////*/
-
-		//Function to flip the sprite
-		if ((groundCheck.grounded)&&(horizontalSpeed != 0))
-		{
-			float absDirectionValue = horizontalSpeed / Mathf.Abs(horizontalSpeed);
-
-			if ((currentScale.x != absDirectionValue))
-			{
-				Vector3 newScale = currentScale;
-				newScale.x = absDirectionValue;
-				transform.localScale = newScale;
-			}
-		}
-
-
-		/*/////////////////////////////////////////////////////////////////////////////////////
 		///			FINAL MOVEMENT SECTION													///
 		/////////////////////////////////////////////////////////////////////////////////////*/
 		
 		Vector2 newPosition = new Vector2 (velocityX, velocityY);
 		rigidbody.velocity = newPosition;
 
+		/*/////////////////////////////////////////////////////////////////////////////////////
+		///			SPRITE FLIPPING SECTION													///
+		/////////////////////////////////////////////////////////////////////////////////////*/
+		
+		//Function to flip the sprite
 		if (horizontalSpeed != 0)
 		{
-			spriteAnimator.PlayAnimation(this, 1 / walkSpeed, true, walkCycleFrames, false);
-			animationPlaying = true;
-		}
-		else if (animationPlaying)
-		{
-			spriteAnimator.StopAnimation();
-			animationPlaying = false;
+			float absDirectionValue = horizontalSpeed / Mathf.Abs(horizontalSpeed);
+			
+			if ((currentScale.x != absDirectionValue))
+			{
+				FlipSprite(absDirectionValue);
+			}
 		}
 	}
 
+	void FlipSprite(float dir)
+	{
+		Vector3 newScale = currentScale;
+		newScale.x = dir;
+		transform.localScale = newScale;
+	}
+
+
+	/*/////////////////////////////////////////////////////////////////////////////////////
+	///			WALLJUMP SECTION													///
+	/////////////////////////////////////////////////////////////////////////////////////*/
+
 	void WallJump()
 	{
-		Vector2 currentDir = Vector2.right * currentScale.x;
-		float rayLength = (topCollider.size.x * 0.5f) + wallJumpWallOffset;
-		Vector2 currentPosition2D = new Vector2 (transform.position.x, transform.position.y);
-		Vector2 startVec2 = new Vector2 (transform.position.x, transform.position.y + topCollider.size.y);
-
-		Debug.DrawRay(startVec2, Vector2.right * currentScale.x);
-			
-		if (Physics2D.Raycast(currentPosition2D, currentDir, rayLength, wallLayer))
+		if (inventory.hasWallJump)
 		{
-			print ("Walljumped!");
-			wallJumping = true;
+			Vector2 currentDir = Vector2.right * currentScale.x;
+			float rayLength = (topCollider.size.x * 0.5f) + wallJumpWallOffset;
+			Vector2 currentPosition2D = new Vector2 (transform.position.x, transform.position.y);
+			Vector2 startVec2 = new Vector2 (transform.position.x, transform.position.y + topCollider.size.y);
 
-			velocityY = wallJumpForce;
-			velocityX = airSpeed * -currentScale.x;
+			Debug.DrawRay(startVec2, Vector2.right * currentScale.x);
+				
+			if (Physics2D.Raycast(currentPosition2D, currentDir, rayLength, wallLayer))
+			{
+				print ("Walljumped!");
+				wallJumping = true;
+
+				velocityY = wallJumpForce;
+				velocityX = airSpeed * -currentScale.x;
+				FlipSprite(-currentDir.x);
+			}
+			else if (Physics2D.Raycast(currentPosition2D, -currentDir, rayLength, wallLayer))
+			{
+				print ("Walljumped!");
+				wallJumping = true;
+				
+				velocityY = wallJumpForce;
+				velocityX = airSpeed * currentScale.x;
+				FlipSprite(-currentDir.x);
+			}
 		}
 	}
 }

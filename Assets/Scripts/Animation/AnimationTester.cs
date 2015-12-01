@@ -19,7 +19,7 @@ public class AnimationTester : MonoBehaviour
 	{
 		if (Input.GetKeyDown(KeyCode.F1))
 		{
-			spriteAnimator.PlayAnimation(this, duration, loopAnimation, animationFrames, true);
+			spriteAnimator.PlayAnimation(this, duration, loopAnimation, animationFrames, false, true);
 		}
 	}
 }
