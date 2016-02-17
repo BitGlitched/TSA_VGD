@@ -9,19 +9,20 @@ public class SpriteAnimator : MonoBehaviour
 
 	public float idleAnimationDuration = 1.25f;
 
-	private Sprite[] currentAnimationFrames;
+	public Sprite[] currentAnimationFrames;
 
 	public float animationDuration = 0.5f;
 	public float frameChangeInterval;
 	public float timestamp = 0;
 
+	public bool animationLengthTiming = false;
 	public bool loopAnimation = false;
 	public bool hangAnimation = false;
 	public bool animating;
 
 	public int frame;
 
-	private Sprite defaultSprite;
+	public Sprite defaultSprite;
 	private SpriteRenderer spriteRenderer;
 	public GameObject animationMessageOrigin;
 
@@ -29,6 +30,7 @@ public class SpriteAnimator : MonoBehaviour
 	void Awake()
 	{
 		spriteRenderer = transform.GetComponent<SpriteRenderer>();
+		defaultSprite = spriteRenderer.sprite;
 	}
 
 	public void PlayAnimation(Component origin, float duration, bool loop, Sprite[] animationFrames, bool hang, bool overideAnimation)
@@ -42,6 +44,7 @@ public class SpriteAnimator : MonoBehaviour
 			loopAnimation = loop;
 			hangAnimation = hang;
 			currentAnimationFrames = animationFrames;
+			frame = 0;
 		}
 		else if (overideAnimation)
 		{
@@ -51,6 +54,7 @@ public class SpriteAnimator : MonoBehaviour
 			animationMessageOrigin = origin.gameObject;
 			animationDuration = duration;
 			currentAnimationFrames = animationFrames;
+
 		}
 		else
 		{
@@ -112,7 +116,7 @@ public class SpriteAnimator : MonoBehaviour
 	{
 		timestamp = 0;
 
-		if (frame >= currentAnimationFrames.Length - 1)
+		if (frame >= currentAnimationFrames.Length - 1 && !hangAnimation)
 		{
 			frame = 0;
 			spriteRenderer.sprite = currentAnimationFrames[frame];
@@ -122,17 +126,26 @@ public class SpriteAnimator : MonoBehaviour
 				AnimationFinish();
 			}
 		}
-		else
+		else if (!hangAnimation)
 		{
 			frame++;
 			spriteRenderer.sprite = currentAnimationFrames[frame];
+		}
+		else if (!(frame >= currentAnimationFrames.Length - 1))
+		{
+			frame++;
+			spriteRenderer.sprite = currentAnimationFrames[frame];
+			
 		}
 	}
 
 	void AnimationFinish()
 	{
-		spriteRenderer.sprite = defaultSprite;
+		frame = 0;
 
+		spriteRenderer.sprite = defaultSprite;
+		loopAnimation = false;
+		hangAnimation = false;
 		animating = false;
 
 		if (animationMessageOrigin != null)

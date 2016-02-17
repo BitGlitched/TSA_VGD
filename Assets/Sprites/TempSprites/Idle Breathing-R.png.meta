@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 33c4a4b8c3f166e4394a300482c0ac4e
-timeCreated: 1448931854
+timeCreated: 1454267728
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -34,7 +34,7 @@ TextureImporter:
   cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -3
-  maxTextureSize: 1024
+  maxTextureSize: 256
   textureSettings:
     filterMode: 0
     aniso: 16
@@ -60,19 +60,19 @@ TextureImporter:
     - name: Idle Breathing-R_0
       rect:
         serializedVersion: 2
-        x: 22
-        y: 0
-        width: 22
-        height: 63
+        x: 0
+        y: 192
+        width: 64
+        height: 64
       alignment: 7
       pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Idle Breathing-R_1
       rect:
         serializedVersion: 2
-        x: 86
-        y: 0
-        width: 22
+        x: 64
+        y: 192
+        width: 64
         height: 64
       alignment: 7
       pivot: {x: .5, y: 0}
@@ -80,9 +80,9 @@ TextureImporter:
     - name: Idle Breathing-R_2
       rect:
         serializedVersion: 2
-        x: 150
-        y: 0
-        width: 22
+        x: 128
+        y: 192
+        width: 64
         height: 64
       alignment: 7
       pivot: {x: .5, y: 0}
@@ -90,9 +90,9 @@ TextureImporter:
     - name: Idle Breathing-R_3
       rect:
         serializedVersion: 2
-        x: 214
-        y: 0
-        width: 22
+        x: 192
+        y: 192
+        width: 64
         height: 64
       alignment: 7
       pivot: {x: .5, y: 0}
@@ -100,9 +100,9 @@ TextureImporter:
     - name: Idle Breathing-R_4
       rect:
         serializedVersion: 2
-        x: 278
-        y: 0
-        width: 22
+        x: 0
+        y: 128
+        width: 64
         height: 64
       alignment: 7
       pivot: {x: .5, y: 0}
@@ -110,9 +110,9 @@ TextureImporter:
     - name: Idle Breathing-R_5
       rect:
         serializedVersion: 2
-        x: 342
-        y: 0
-        width: 22
+        x: 64
+        y: 128
+        width: 64
         height: 64
       alignment: 7
       pivot: {x: .5, y: 0}
@@ -120,9 +120,9 @@ TextureImporter:
     - name: Idle Breathing-R_6
       rect:
         serializedVersion: 2
-        x: 406
-        y: 0
-        width: 22
+        x: 128
+        y: 128
+        width: 64
         height: 64
       alignment: 7
       pivot: {x: .5, y: 0}

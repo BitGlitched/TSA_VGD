@@ -29,4 +29,9 @@ public class PauseMenu : MonoBehaviour
 			Time.timeScale = 1;
 		}
 	}
+
+	void ExitGame()
+	{
+		Application.Quit();
+	}
 }

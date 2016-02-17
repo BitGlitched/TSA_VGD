@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: ca72ec455bd4b3445a8be68753bc2488
-timeCreated: 1448931948
+timeCreated: 1454267746
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -35,7 +35,7 @@ TextureImporter:
   cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -3
-  maxTextureSize: 1024
+  maxTextureSize: 256
   textureSettings:
     filterMode: 0
     aniso: 16
@@ -61,39 +61,39 @@ TextureImporter:
     - name: Walk-R_0
       rect:
         serializedVersion: 2
-        x: 17
-        y: 0
-        width: 34
-        height: 63
+        x: 0
+        y: 192
+        width: 64
+        height: 64
       alignment: 7
       pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Walk-R_1
       rect:
         serializedVersion: 2
-        x: 78
-        y: 0
-        width: 32
-        height: 62
+        x: 64
+        y: 192
+        width: 64
+        height: 64
       alignment: 7
       pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Walk-R_2
       rect:
         serializedVersion: 2
-        x: 151
-        y: 0
-        width: 19
-        height: 63
+        x: 128
+        y: 192
+        width: 64
+        height: 64
       alignment: 7
       pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Walk-R_3
       rect:
         serializedVersion: 2
-        x: 213
-        y: 0
-        width: 25
+        x: 192
+        y: 192
+        width: 64
         height: 64
       alignment: 7
       pivot: {x: .5, y: 0}
@@ -101,39 +101,39 @@ TextureImporter:
     - name: Walk-R_4
       rect:
         serializedVersion: 2
-        x: 273
-        y: 0
-        width: 34
-        height: 63
+        x: 0
+        y: 128
+        width: 64
+        height: 64
       alignment: 7
       pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Walk-R_5
       rect:
         serializedVersion: 2
-        x: 334
-        y: 0
-        width: 32
-        height: 62
+        x: 64
+        y: 128
+        width: 64
+        height: 64
       alignment: 7
       pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Walk-R_6
       rect:
         serializedVersion: 2
-        x: 407
-        y: 0
-        width: 19
-        height: 63
+        x: 128
+        y: 128
+        width: 64
+        height: 64
       alignment: 7
       pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Walk-R_7
       rect:
         serializedVersion: 2
-        x: 469
-        y: 0
-        width: 25
+        x: 192
+        y: 128
+        width: 64
         height: 64
       alignment: 7
       pivot: {x: .5, y: 0}

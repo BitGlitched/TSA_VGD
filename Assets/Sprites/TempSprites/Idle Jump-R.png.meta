@@ -1,16 +1,15 @@
 fileFormatVersion: 2
 guid: 87ce6522d5468cc47804019f0f4521ff
-timeCreated: 1448931932
+timeCreated: 1454267944
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Idle Jump-R_0
-    21300002: Idle Jump-R_1
-    21300004: Idle Jump-R_2
-    21300006: Idle Jump-R_3
-    21300008: Idle Jump-R_4
-    21300010: Idle Jump-R_5
-    21300012: Idle Jump-R_6
+    21300000: Idle jump-R_0
+    21300002: Idle jump-R_1
+    21300004: Idle jump-R_2
+    21300006: Idle jump-R_3
+    21300008: Idle jump-R_4
+    21300010: Idle jump-R_5
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -34,7 +33,7 @@ TextureImporter:
   cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -3
-  maxTextureSize: 1024
+  maxTextureSize: 512
   textureSettings:
     filterMode: 0
     aniso: 16
@@ -57,73 +56,63 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: Idle Jump-R_0
+    - name: Idle jump-R_0
       rect:
         serializedVersion: 2
-        x: 24
-        y: 0
-        width: 32
-        height: 62
+        x: 0
+        y: 384
+        width: 64
+        height: 128
       alignment: 7
       pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Idle Jump-R_1
+    - name: Idle jump-R_1
       rect:
         serializedVersion: 2
-        x: 88
-        y: 0
-        width: 23
-        height: 67
+        x: 64
+        y: 384
+        width: 64
+        height: 128
       alignment: 7
       pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Idle Jump-R_2
+    - name: Idle jump-R_2
       rect:
         serializedVersion: 2
-        x: 150
-        y: 0
-        width: 23
-        height: 81
+        x: 128
+        y: 384
+        width: 64
+        height: 128
       alignment: 7
       pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Idle Jump-R_3
+    - name: Idle jump-R_3
       rect:
         serializedVersion: 2
-        x: 204
-        y: 0
-        width: 37
-        height: 67
+        x: 192
+        y: 384
+        width: 64
+        height: 128
       alignment: 7
       pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Idle Jump-R_4
+    - name: Idle jump-R_4
       rect:
         serializedVersion: 2
-        x: 274
-        y: 0
-        width: 30
-        height: 67
+        x: 0
+        y: 256
+        width: 64
+        height: 128
       alignment: 7
       pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Idle Jump-R_5
+    - name: Idle jump-R_5
       rect:
         serializedVersion: 2
-        x: 340
-        y: 0
-        width: 25
-        height: 62
-      alignment: 7
-      pivot: {x: .5, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Idle Jump-R_6
-      rect:
-        serializedVersion: 2
-        x: 406
-        y: 0
-        width: 22
-        height: 64
+        x: 64
+        y: 256
+        width: 64
+        height: 128
       alignment: 7
       pivot: {x: .5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
